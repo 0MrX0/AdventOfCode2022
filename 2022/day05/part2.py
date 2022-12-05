@@ -13,10 +13,11 @@ with open('input.txt') as f:
         i += 1
 
     for i in range(i + 2, len(lines)):
-        command = list(map(int, lines[i].strip().split(' ')[1::2]))
+        # move n from stack a to stack b
+        n, a, b = list(map(int, lines[i].strip().split(' ')[1::2]))
 
-        stacks[command[2] - 1] = stacks[command[2] - 1] + stacks[command[1] - 1][-command[0]:]
-        stacks[command[1] - 1] = stacks[command[1] - 1][:-command[0]]
+        stacks[b - 1] += stacks[a - 1][-n:]
+        stacks[a - 1] = stacks[a - 1][:-n]
 
     code = ''
     for stack in stacks:
