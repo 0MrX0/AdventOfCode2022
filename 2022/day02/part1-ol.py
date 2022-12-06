@@ -1,0 +1,1 @@
+print(sum([y + 4 if x == y else y + 7 if (x, y) in ((0, 1), (1, 2), (2, 0)) else y + 1 for x, y in [(ord(a) - ord('A'), ord(b) - ord('X')) for a, b in [line.strip().split(' ') for line in open('input.txt')]]]))
