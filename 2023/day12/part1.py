@@ -30,7 +30,6 @@ def validate(cogs, nums):
         if n >= len(nums) or c != nums[n]:
             return False
         n += 1
-        in_group = False
     return len(nums) == n
 
 with open('input.txt', 'r', encoding='utf-8') as f:
