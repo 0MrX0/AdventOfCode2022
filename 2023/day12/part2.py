@@ -35,7 +35,6 @@ def gen_input(cogs, nums, in_group=False):
     return res
 
 with open('input.txt', 'r', encoding='utf-8') as f:
-    # f = ['.# 1']
     data = []
     for l in f:
         cs, ns = l.strip().split()
