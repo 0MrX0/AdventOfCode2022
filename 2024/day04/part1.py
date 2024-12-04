@@ -13,15 +13,11 @@ with open('input.txt') as f:
             return 0
 
         if direction is None:
-            return \
-                    check_word(word, x, y, lambda x, y: (x, y - 1)) + \
-                    check_word(word, x, y, lambda x, y: (x, y + 1)) + \
-                    check_word(word, x, y, lambda x, y: (x - 1, y)) + \
-                    check_word(word, x, y, lambda x, y: (x + 1, y)) + \
-                    check_word(word, x, y, lambda x, y: (x - 1, y - 1)) + \
-                    check_word(word, x, y, lambda x, y: (x + 1, y - 1)) + \
-                    check_word(word, x, y, lambda x, y: (x - 1, y + 1)) + \
-                    check_word(word, x, y, lambda x, y: (x + 1, y + 1))
+            return sum(
+                check_word(word, x, y, lambda x, y: (x + dx, y + dy))
+                for dx in range (-1, 2)
+                for dy in range(-1, 2)
+            )
 
         if word_search[y][x] != word[0]:
             return 0
