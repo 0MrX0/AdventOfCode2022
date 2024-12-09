@@ -1,30 +1,42 @@
 with open('input.txt', 'r', encoding='utf-8') as f:
-    partitioning = []
+    partitioning: list[tuple[int|None, int]] = []
 
     pid = 0
     free = False
     for c in f.read().strip():
-        for i in range(int(c)):
-            if free:
-                partitioning.append(None)
-            else:
-                partitioning.append(pid)
+        partitioning.append((pid if not free else None, int(c)))
         free = not free
-        if free:
-            pid += 1
+        pid += free
 
-    free_idx = 0
     for i in range(len(partitioning) - 1, -1, -1):
-        if free_idx >= len(partitioning):
-            break
-        if partitioning[i] is None:
+        pi, li = partitioning[i]
+        if pi is None:
             continue
-        while partitioning[free_idx] is not None:
-            free_idx += 1
-        if i < free_idx:
-            break
-        partitioning[free_idx], partitioning[i] = partitioning[i], None
+        for j in range(i):
+            pj, lj = partitioning[j]
+            if pj is not None:
+                continue
+            if lj >= li:
+                l = lj - li
+                partitioning[j] = (pi, li)
+                if partitioning[i - 1][0] is None:
+                    li += partitioning[i - 1][1]
+                    partitioning[i - 1] = (None, 0)
+                if i >= len(partitioning) and partitioning[i + 1][0] is None:
+                    li += partitioning[i + 1][1]
+                    partitioning[i + 1] = (None, 0)
+                partitioning[i] = (None, li)
+                if l > 0:
+                    partitioning.insert(j + 1, (None, l))
+                break
 
-    checksum = sum([idx * p for idx, p in enumerate(partitioning) if p is not None])
+    count = 0
+    idx = 0
+    for pi, li in partitioning:
+        if pi is not None:
+            for i in range(li):
+                count += (idx + i) * pi
+        idx += li
 
-    print(checksum)
+    print(count)
+
